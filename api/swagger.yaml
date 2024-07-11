@@ -1,0 +1,413 @@
+swagger: "2.0"
+info:
+  title: Bank Argent API documentation
+  description: Contains all available API endpoints in this codebase
+  version: "1.0.0"
+  termsOfService: "http://swagger.io/terms/"
+host: localhost:3001
+basePath: /api/v1
+schemes:
+  - http
+paths:
+  /user/banks:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: User Bank API
+      description: API for fetching a user banks
+      parameters:
+        - in: header
+          type: string
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: User banks retrieved successfully
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Bank"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+  /user/banks/{id}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: User Bank API
+      description: API for fetching a user bank
+      parameters:
+        - in: header
+          type: string
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: path
+          name: id
+          description: Bank ID
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: User bank retrieved successfully
+          schema:
+            $ref: "#/definitions/Bank"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+  /user/banks/{id}/transactions:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: User Bank Transaction API
+      description: API for fetching a user bank transactions
+      parameters:
+        - in: header
+          type: string
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: path
+          name: id
+          description: Bank ID
+          required: true
+          type: string
+        - in: query
+          name: StartDate
+          description: Start date of the transaction period in YYYY-MM-DD format
+          required: false
+          type: string
+        - in: query
+          name: EndDate
+          description: End date of the transaction period in YYYY-MM-DD format
+          required: false
+          type: string
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: User bank transactions retrieved successfully
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Transaction"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+  /user/banks/{id}/transactions/{transactionId}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: User Bank Transaction API
+      description: API for fetching a user bank transaction
+      parameters:
+        - in: header
+          type: string
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: path
+          name: id
+          description: Bank ID
+          required: true
+          type: string
+        - in: path
+          name: transactionId
+          description: Transaction ID
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: User bank transaction retrieved successfully
+          schema:
+            $ref: "#/definitions/Transaction"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+    patch:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: User Bank Transaction API
+      description: API for updating a user bank transaction
+      parameters:
+        - in: header
+          type: string
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: path
+          name: id
+          description: Bank ID
+          required: true
+          type: string
+        - in: path
+          name: transactionId
+          description: Transaction ID
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Update user bank transaction attributes
+          required: true
+          schema:
+            type: object
+            minProperties: 1
+            properties:
+              categoryId:
+                type: string
+                description: user category id
+              notes:
+                type: string
+                description: transaction notes
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: User bank transaction updated successfully
+          schema:
+            $ref: "#/definitions/Transaction"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+  /user/categories:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: User Category API
+      description: API for fetching a user categories
+      parameters:
+        - in: header
+          type: string
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: User categories retrieved successfully
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Category"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: User Category API
+      description: API for creating a user category
+      parameters:
+        - in: header
+          name: Authorization
+          type: string
+          description: Attach Bearer JWT token
+          required: true
+        - in: body
+          name: body
+          description: Create user category attributes
+          required: true
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: category name
+              description:
+                type: string
+                description: category description
+            required:
+              - name
+              - description
+
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: User category created successfully
+          schema:
+            $ref: "#/definitions/Category"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+  /user/categories/{id}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: User Category API
+      description: API for fetching a user category
+      parameters:
+        - in: header
+          type: string
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: path
+          name: id
+          description: Category ID
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: User category retrieved successfully
+          schema:
+            $ref: "#/definitions/Category"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+    patch:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: User Category API
+      description: API for updating a user category
+      parameters:
+        - in: header
+          type: string
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: path
+          name: id
+          description: Category ID
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Update user category attributes
+          required: true
+          schema:
+            type: object
+            minProperties: 1
+            properties:
+              name:
+                type: string
+                description: category name
+              description:
+                type: string
+                description: category description
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: User category updated successfully
+          schema:
+            $ref: "#/definitions/Category"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: User Category API
+      description: API for deleting a user category
+      parameters:
+        - in: header
+          type: string
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: path
+          name: id
+          description: Category ID
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: User category deleted successfully
+          schema:
+            $ref: "#/definitions/Category"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+definitions:
+  Bank:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+      createdAt:
+        type: string
+      updatedAt:
+        type: string
+  Category:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+      createdAt:
+        type: string
+      updatedAt:
+        type: string
+  Transaction:
+    properties:
+      id:
+        type: string
+      bankId:
+        type: string
+      amount:
+        type: number
+      categoryId:
+        type: string
+      description:
+        type: string
+      notes:
+        type: string
+      balance:
+        type: number
+      createdAt:
+        type: string
+      updatedAt:
+        type: string
